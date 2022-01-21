@@ -65,9 +65,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         response = {}
         (resource, id, filters) = self.parse_url(self.path)
-        response = f"{get_teams(filters)}"
-        
-    
+        if resource == "teams":
+            response = f"{get_teams(filters)}"
+       
 
         self.wfile.write(response.encode())
 

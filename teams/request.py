@@ -1,17 +1,8 @@
-from models.player import Player
-from models.team_score import TeamScore
-from models.team import Team
 import sqlite3
 import json
-
-
-
-
-
-
+from models import Player, Team, TeamScore
 
 def get_teams(filters):
-    
     with sqlite3.connect("./flagons.db") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
@@ -49,7 +40,7 @@ def get_teams(filters):
                             ts.score,
                             ts.timeStamp
                         FROM Teams t
-                         JOIN TeamScore ts ON ts.teamId = t.id
+                        LEFT OUTER JOIN TeamScore ts ON ts.teamId = t.id
                         """)
 
                         dataset = db_cursor.fetchall()
@@ -64,7 +55,7 @@ def get_teams(filters):
                             score = int(row['score']) if row['score'] is not None else 0
                             if score > 0:
                                 team_score = TeamScore(row['score_id'], row['teamId'], score, row['timeStamp'])
-                            team.scores.append(team_score.__dict__)
+                                team.scores.append(team_score.__dict__)
 
 
                     elif related_resource == "players":
@@ -89,11 +80,10 @@ def get_teams(filters):
                             else:
                                 team = teams[row['id']]
 
-                            player = Player(row['player_id'], row['firstName'], row['lastName'], row['teamId'])
-                        team.players.append(player.__dict__)
-
+                                player = Player(row['player_id'], row['firstName'], row['lastName'], row['teamId'])
+                                team.players.append(player.__dict__)
+                    
             json_teams = []
             for team in teams.values():
                 json_teams.append(team.__dict__)
             return json.dumps(json_teams)
-

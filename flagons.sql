@@ -15,15 +15,15 @@ CREATE TABLE `Players` (
     `id`    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     `firstName`    TEXT NOT NULL,
     `lastName`    TEXT NOT NULL,
-    `teamId` INTEGER NOT NULL,
+    `team_id` INTEGER NOT NULL,
     FOREIGN KEY(`teamId`) REFERENCES `Teams`(`id`)
 );
 
 
 CREATE TABLE `TeamScore` (
 	`id`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    `teamId` INTEGER NOT NULL,
-	`score`  TEXT NOT NULL,
+    `team_id` INTEGER NOT NULL,
+	`team_score`  TEXT NOT NULL,
 	`timeStamp` TEXT NOT NULL,
     FOREIGN KEY(`teamId`) REFERENCES `Teams`(`id`)
 );
