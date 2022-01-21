@@ -5,7 +5,13 @@ import sqlite3
 import json
 
 
+
+
+
+
+
 def get_teams(filters):
+    
     with sqlite3.connect("./flagons.db") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
@@ -41,9 +47,9 @@ def get_teams(filters):
                             ts.id score_id,
                             ts.teamId,
                             ts.score,
-                            ts.time_stamp
+                            ts.timeStamp
                         FROM Teams t
-                        LEFT OUTER JOIN TeamScore ts ON ts.teamId = t.id
+                         JOIN TeamScore ts ON ts.teamId = t.id
                         """)
 
                         dataset = db_cursor.fetchall()
