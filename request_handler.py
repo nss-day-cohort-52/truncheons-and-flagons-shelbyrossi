@@ -1,4 +1,5 @@
 import json
+import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from teams.request import get_teams
 
@@ -74,9 +75,8 @@ class HandleRequests(BaseHTTPRequestHandler):
 
 def main():
     host = ''
-    port = 8088
+    port = int(os.environ['PORT'])
     HTTPServer((host, port), HandleRequests).serve_forever()
 
 
-if __name__ == "__main__":
-    main()
+main()
